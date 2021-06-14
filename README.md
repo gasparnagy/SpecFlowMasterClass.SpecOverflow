@@ -18,6 +18,10 @@ A simple Q&A site where people can ask questions and post answers.
 
 **Open-source:** Explore, fork, play, contribute!
 
+_Note:_ The sample application uses the concept of Rules, but these are represented as comments in the 
+feature files, because the "SpecFlow for Visual Studio 2019" extension does not yet support the `Rule` 
+keyword. If you use the [Deveroom for SpecFlow](https://github.com/specsolutions/deveroom-visualstudio) extension for Visual Studio or Rider, you can check 
+the branch [`rules-and-cucumber-expressions`](https://github.com/gasparnagy/SpecFlowMasterClass.SpecOverflow/tree/rules-and-cucumber-expressions).
 
 ## See Also
 
