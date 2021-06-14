@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29609.76
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecFlowMasterClass.SpecOverflow.Web", "SpecFlowMasterClass.SpecOverflow.Web\SpecFlowMasterClass.SpecOverflow.Web.csproj", "{BCC4E7F9-9CD9-4E71-8F74-ABA87623FF34}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecFlowMasterClass.SpecOverflow.Specs.Controller", "SpecFlowMasterClass.SpecOverflow.Specs.Controller\SpecFlowMasterClass.SpecOverflow.Specs.Controller.csproj", "{4472FA94-91CF-481F-8527-1CF44A7D0D9F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecFlowMasterClass.SpecOverflow.Specs.API", "SpecFlowMasterClass.SpecOverflow.Specs.API\SpecFlowMasterClass.SpecOverflow.Specs.API.csproj", "{EF8B3025-266C-463F-BA46-F66795C67C40}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecFlowMasterClass.SpecOverflow.Tests", "SpecFlowMasterClass.SpecOverflow.Tests\SpecFlowMasterClass.SpecOverflow.Tests.csproj", "{BEACB170-C8E2-4AFE-86CE-F2723B496DBC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecFlowMasterClass.SpecOverflow.Specs.WebUI", "SpecFlowMasterClass.SpecOverflow.Specs.WebUI\SpecFlowMasterClass.SpecOverflow.Specs.WebUI.csproj", "{EFD3D295-60F6-44E0-87F4-5205E1B7EF84}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D6B1F5BC-FF38-492C-B966-CF7B4C3DEB5B}"
+	ProjectSection(SolutionItems) = preProject
+		.config\dotnet-tools.json = .config\dotnet-tools.json
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BCC4E7F9-9CD9-4E71-8F74-ABA87623FF34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCC4E7F9-9CD9-4E71-8F74-ABA87623FF34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCC4E7F9-9CD9-4E71-8F74-ABA87623FF34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCC4E7F9-9CD9-4E71-8F74-ABA87623FF34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4472FA94-91CF-481F-8527-1CF44A7D0D9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4472FA94-91CF-481F-8527-1CF44A7D0D9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4472FA94-91CF-481F-8527-1CF44A7D0D9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4472FA94-91CF-481F-8527-1CF44A7D0D9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF8B3025-266C-463F-BA46-F66795C67C40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF8B3025-266C-463F-BA46-F66795C67C40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF8B3025-266C-463F-BA46-F66795C67C40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF8B3025-266C-463F-BA46-F66795C67C40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEACB170-C8E2-4AFE-86CE-F2723B496DBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEACB170-C8E2-4AFE-86CE-F2723B496DBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEACB170-C8E2-4AFE-86CE-F2723B496DBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEACB170-C8E2-4AFE-86CE-F2723B496DBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFD3D295-60F6-44E0-87F4-5205E1B7EF84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFD3D295-60F6-44E0-87F4-5205E1B7EF84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFD3D295-60F6-44E0-87F4-5205E1B7EF84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFD3D295-60F6-44E0-87F4-5205E1B7EF84}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {02C8B3DB-D290-40F6-88DF-38EABFF39937}
+	EndGlobalSection
+EndGlobal

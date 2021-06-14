@@ -1,0 +1,72 @@
+﻿@page
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2>Register</h2>
+
+<fieldset>
+    <form id="RegisterForm">
+        <p>
+            <label for="UserName">User name</label>
+            <input type="text" id="UserName" />
+        </p>
+
+        <p>
+            <label for="Password">Password</label>
+            <input type="password" id="Password" />
+        </p>
+
+        <p>
+            <label for="PasswordReEnter">Re-enter password</label>
+            <input type="password" id="PasswordReEnter" />
+        </p>
+
+        <div id="ErrorMessage" class="error" style="display: none"></div>
+
+        <p>
+            <input type="submit" value="Register" id="RegisterButton" />
+        </p>
+    </form>
+</fieldset>
+@section scripts
+{
+    <script language="javascript">
+        $(function() {
+            $('#RegisterForm').submit(function (event) {
+                $('#ErrorMessage').hide();
+                $('body').attr("data-ajax-form", "1");
+                $.ajax('@Url.Api("/api/user")',
+                        {
+                            method: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                                userName: $('#UserName').val(),
+                                password: $('#Password').val(),
+                                passwordReEnter: $('#PasswordReEnter').val()
+                            })
+                        })
+                    .then(
+                        function success() {
+                            console.log("user registered");
+                            window.location.href = '@Url.Page("Login")';
+                        },
+                        function fail(request) {
+                            if (request.status === 400) {
+                                console.log(request);
+                                $('#ErrorMessage').show();
+                                $('#ErrorMessage').html(request.responseText);
+                            } else {
+                                console.log(request);
+                                alert('Request failed (' + request.status + '). ' + request.statusText);
+                            }
+                            $('body').attr("data-ajax-form", "0");
+                        }
+                    );
+                // stop the form from submitting the normal way and refreshing the page
+                event.preventDefault();
+            });
+
+        });
+    </script>
+}

@@ -1,0 +1,34 @@
+﻿@page
+@{
+    ViewData["Title"] = "Home";
+}
+
+<h1 class="message" id="MainMessage"></h1>
+
+<h2>Latest questions</h2>
+<ul id="Questions"></ul>
+
+@section scripts
+    {
+    <script language="javascript">
+        $(function () {
+            $('body').attr("data-ajax-loaded", "0");
+            $.ajax('@Url.Api("/api/home")')
+                .then(
+                    function success(viewModel) {
+                        console.log(viewModel);
+                        $("#MainMessage").html(viewModel.mainMessage);
+                        viewModel.latestQuestions.forEach(function (question) {
+                            addQuestionSummaryItem(question);
+                        });
+                        $('body').attr("data-ajax-loaded", "1");
+                    },
+                    function fail(request) {
+                        console.log(request);
+                        alert('Request failed (' + request.status + '). ' + request.statusText);
+                        $('body').attr("data-ajax-loaded", "1");
+                    }
+                );
+        });
+    </script>
+}

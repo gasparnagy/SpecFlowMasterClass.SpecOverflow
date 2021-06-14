@@ -1,0 +1,120 @@
+﻿@page
+@{
+    ViewData["Title"] = "Ask a Question";
+}
+
+<h2>Ask a Question</h2>
+
+<fieldset id="ask">
+    <form id="AskForm">
+        <p id="titleinput">
+            <label for="TitleInput">Title</label>
+            <input type="text" id="TitleInput" />
+        </p>
+
+        <p id="bodyinput">
+            <label for="BodyInput">Body</label>
+            <textarea id="BodyInput"></textarea>
+        </p>
+
+        <p id="tagsinput">
+            <label for="Tags">Tags</label>
+            <input type="text" id="Tags" />
+        </p>
+
+        <div id="ErrorMessage" class="error" style="display: none"></div>
+
+        <p>
+            <input type="submit" value="Post your question" id="PostQuestionButton" />
+        </p>
+    </form>
+</fieldset>
+
+<h2>Similar questions</h2>
+<ul id="SimilarQuestions"></ul>
+@section scripts
+{
+    <script language="javascript">
+        $(function() {
+            $('#AskForm').submit(function(event) {
+                $('#ErrorMessage').hide();
+                $('body').attr("data-ajax-form", "1");
+                var tags = $('#Tags').val().split(/[\s,;]+/);
+                console.log(tags);
+                $.ajax('@Url.Api("/api/question")',
+                        {
+                            method: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                                title: $('#TitleInput').val(),
+                                body: $('#BodyInput').val(),
+                                tags: tags
+                            })
+                        })
+                    .then(
+                        function success(question) {
+                            console.log("question posted");
+                            window.location.href = '@Url.Page("Question")?id=' + question.id;
+                        },
+                        function fail(request) {
+                            if (is400Error(request.status)) {
+                                console.log(request);
+                                $('#ErrorMessage').show();
+                                $('#ErrorMessage').html(request.responseText);
+                            } else {
+                                console.log(request);
+                                alert('Request failed (' + request.status + '). ' + request.statusText);
+                            }
+                            $('body').attr("data-ajax-form", "0");
+                        }
+                    );
+                // stop the form from submitting the normal way and refreshing the page
+                event.preventDefault();
+            });
+
+            $('#AskForm input,#AskForm textarea').keyup(function(event) {
+                console.log("keyup");
+                onFormChanged();
+            });
+            $('#AskForm input,#AskForm textarea').change(function(event) {
+                console.log("change");
+                onFormChanged();
+            });
+        });
+
+        var timer;
+        function onFormChanged() {
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                getSuggestions();
+            }, 2000);
+        }
+
+        function getSuggestions() {
+            var tags = $('#Tags').val().split(/[\s,;]+/);
+            $.ajax('@Url.Api("/api/qs")',
+                {
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        title: $('#TitleInput').val(),
+                        body: $('#BodyInput').val(),
+                        tags: tags
+                    })
+                })
+            .then(
+                function success(questions) {
+                    console.log(questions);
+                    $("#SimilarQuestions").html("");
+                    questions.forEach(function (question) {
+                        var li = $("<li>").html($('<a href="/Question?id=' + question.id + '">').text(question.title));
+                        $("#SimilarQuestions").append(li);
+                    });
+                },
+                function fail(request) {
+                    console.log(request);
+                }
+            );
+        }
+    </script>
+}

@@ -1,0 +1,226 @@
+﻿@page
+@{
+    ViewData["Title"] = "Question";
+    var voteUpSvg = "<svg aria-hidden='true' class='svg-icon' width='36' height='36' viewBox='0 0 36 36'><path d='M2 26h32L18 10 2 26z'></path></svg>";
+    var voteDownSvg = "<svg aria-hidden='true' class='svg-icon' width='36' height='36' viewBox='0 0 36 36'><path d='M2 10h32L18 26 2 10z'></path></svg>";
+}
+
+<div id="QuestionDetails">
+    <div id="QuestionHeader">
+        <h1 id="QuestionTitle">Question</h1>
+    </div>
+    <div id="QuestionStats">
+        <div class="post-stat">
+            Asked
+            <span id="QuestionAskedAt"></span>
+            by
+            <span id="QuestionAskedBy"></span>
+        </div>
+        <div class="post-stat">
+            Viewed
+            <span id="QuestionViews"></span>
+            <span>times</span>
+        </div>
+    </div>
+    <div class="post-layout">
+        <div class="vote-cell">
+            <div class="voting-container">
+                <button id="QuestionVoteUp" class='vote-up'>
+                    @Html.Raw(voteUpSvg)
+                </button>
+                <div class="current-votes" id="QuestionVotes"></div>
+                <button id="QuestionVoteDown" class='vote-down'>
+                    @Html.Raw(voteDownSvg)
+                </button>
+            </div>
+        </div><div class="post-cell">
+            <div id="QuestionBody" class="multi-line"></div>
+            <div>
+                <ul id="QuestionTags"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<h2>Answers</h2>
+<ul id="Answers"></ul>
+
+<fieldset id="Answer">
+    <legend>Your Answer</legend>
+    <form id="AnswerForm">
+        <p>
+            <label for="AnswerContent">Content</label>
+            <textarea id="AnswerContent"></textarea>
+        </p>
+        <div id="ErrorMessage" class="error" style="display: none"></div>
+        <p>
+            <input type="submit" value="Post Your Answer" id="PostAnswerButton" />
+        </p>
+    </form>
+</fieldset>
+
+@section scripts
+{
+    <script language="javascript">
+        function voteForQuestion(value) {
+            console.log("vote: " + value);
+            $('body').attr("data-ajax-form", "1");
+            $.ajax('@Url.Api("/api/question")/@Request.Query["id"]/vote',
+                    {
+                        method: 'PUT',
+                        contentType: 'application/json',
+                        data: JSON.stringify(value)
+                    })
+                .then(
+                    function success(question) {
+                        console.log("vote registered");
+                        $("#QuestionVotes").html(question.votes);
+                        $('body').attr("data-ajax-form", "0");
+                    },
+                    function fail(request) {
+                        console.log(request);
+                        if (request.status === 403)
+                            alert("Please login to be able to vote!");
+                        else if (is400Error(request.status)) {
+                            alert(request.responseText);
+                        }
+                        $('body').attr("data-ajax-form", "0");
+                    }
+                );
+        }
+
+        function voteForAnswer(answerId, value, votesSpan, answerItem) {
+            console.log("vote: " + value + " " + answerId);
+            $('body').attr("data-ajax-form", "1");
+            $.ajax('@Url.Api("/api/question")/@Request.Query["id"]/' + answerId + '/vote',
+                    {
+                        method: 'PUT',
+                        contentType: 'application/json',
+                        data: JSON.stringify(value)
+                    })
+                .then(
+                    function success(answer) {
+                        console.log("vote registered");
+                        votesSpan.html(answer.votes);
+                        var prevVote = answerItem.prev().find(".current-votes").text();
+                        var nextVote = answerItem.next().find(".current-votes").text();
+                        if (value > 0 && prevVote && parseInt(prevVote) < answer.votes) {
+                            answerItem.prev().before(answerItem);
+                            flash(answerItem);
+                        }
+                        else if (value < 0 && nextVote && parseInt(nextVote) > answer.votes) {
+                            answerItem.before(answerItem.next());
+                            flash(answerItem);
+                        }
+                        $('body').attr("data-ajax-form", "0");
+                    },
+                    function fail(request) {
+                        console.log(request);
+                        if (request.status === 403)
+                            alert("Please login to be able to vote!");
+                        else if (is400Error(request.status)) {
+                            alert(request.responseText);
+                        }
+                        $('body').attr("data-ajax-form", "0");
+                    }
+                );
+        }
+
+        function addAnswer(answer) {
+            var votesSpan = $("<div class='current-votes'>").html(answer.votes);
+            var li = $('<li>');
+            var answerInfo = $("<div class='answer-info post-layout' data-answer-id='" + answer.id + "'>")
+                .append($("<div class='vote-cell'>")
+                    .append($("<div class='voting-container'>")
+                        .append($("<button class='vote-up'>").html("@Html.Raw(voteUpSvg)").click(function() {
+                            voteForAnswer(answer.id, 1, votesSpan, li);
+                        }))
+                        .append(votesSpan)
+                        .append($("<button class='vote-down'>").html("@Html.Raw(voteDownSvg)").click(function() {
+                            voteForAnswer(answer.id, -1, votesSpan, li);
+                        }))))
+                .append($("<div class='post-cell'>")
+                    .append($("<div class='multi-line'>").text(answer.content))
+                    .append($("<div class='answer-stats'>")
+                        .append($("<div class='post-stat'>").html('Answered <span>' + getRelativeTimeSpan(answer.answeredAt) + '</span> by ' + getUserReference(answer.answeredBy)))));
+            li.append(answerInfo);
+            $('#Answers').append(li);
+            return li;
+        }
+
+        $(function () {
+            $('body').attr("data-ajax-loaded", "0");
+            $.ajax('@Url.Api("/api/question")/@Request.Query["id"]')
+                .then(
+                    function success(question) {
+                        console.log(question);
+                        document.title = question.title + " - Spec Overflow";
+
+                        $('#QuestionDetails').attr("data-question-id", question.id);
+                        $('#QuestionTitle').text(question.title);
+                        $('#QuestionBody').text(question.body);
+                        $('#QuestionVotes').text(question.votes);
+                        $('#QuestionViews').text(question.views);
+                        $('#QuestionAskedAt').html(getRelativeTimeSpan(question.askedAt));
+                        $('#QuestionAskedBy').html(getUserReference(question.askedBy));
+                        $('#QuestionVoteUp').click(function() {
+                            voteForQuestion(1);
+                        });
+                        $('#QuestionVoteDown').click(function() {
+                            voteForQuestion(-1);
+                        });
+                        question.tags.forEach(function(tag) {
+                            $('#QuestionTags').append($('<li class="post-tag">').text(tag));
+                        });
+                        question.answers.forEach(function(answer) {
+                            addAnswer(answer);
+                        });
+                        $('body').attr("data-ajax-loaded", "1");
+                    },
+                    function fail(request) {
+                        console.log(request);
+                        alert('Request failed (' + request.status + '). ' + request.statusText);
+                        $('body').attr("data-ajax-loaded", "1");
+                    }
+                );
+            $('#AnswerForm').submit(function(event) {
+                $('#ErrorMessage').hide();
+                $('body').attr("data-ajax-form", "1");
+                $.ajax('@Url.Api("/api/question")/@Request.Query["id"]',
+                        {
+                            method: 'PUT',
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                                questionId: '@Request.Query["id"]',
+                                content: $('#AnswerContent').val()
+                            })
+                        })
+                    .then(
+                        function success(answer) {
+                            console.log("answer posted");
+                            flash(addAnswer(answer));
+                            $('#AnswerContent').val("");
+                            $('body').attr("data-ajax-form", "0");
+                        },
+                        function fail(request) {
+                            if (is400Error(request.status)) {
+                                console.log(request);
+                                $('#ErrorMessage').show();
+                                $('#ErrorMessage').text(request.responseText);
+                            } else {
+                                console.log(request);
+                                alert('Request failed (' + request.status + '). ' + request.statusText);
+                            }
+                            $('body').attr("data-ajax-form", "0");
+                        }
+                    );
+                // stop the form from submitting the normal way and refreshing the page
+                event.preventDefault();
+            });
+        });
+    </script>
+}

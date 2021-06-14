@@ -1,0 +1,77 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="specflow.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="specflow.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- test project dependencies (MsTest) -->
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.2.4" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.2.4" />
+
+    <!-- SpecFlow -->
+    <PackageReference Include="SpecFlow.MsTest" Version="3.7.38" />
+
+    <!-- CucumberExpressions support for SpecFlow -->
+    <PackageReference Include="SpecFlow" Version="3.7.38" />
+    <PackageReference Include="CucumberExpressions.SpecFlow.3-7" Version="1.0.6" />
+
+    <!-- SpecFlow+ LivingDoc -->
+    <PackageReference Include="SpecFlow.Plus.LivingDocPlugin" Version="3.7.141" />
+
+    <!-- packages for hosting ASP.NET Core Apps -->
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.CookiePolicy" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Runtime" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.1" />
+
+    <!-- packages for testing ASP.NET Core Apps -->
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="2.1.1" />
+
+    <!-- testing utilities -->
+    <PackageReference Include="FluentAssertions" Version="5.10.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="**\.gitkeep" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\SpecFlowMasterClass.SpecOverflow.Specs.Controller\Drivers\QuestionMother.cs" Link="Drivers\QuestionMother.cs" />
+    <Compile Include="..\SpecFlowMasterClass.SpecOverflow.Specs.Controller\StepDefinitions\QuestionDataStepDefinitions.cs" Link="StepDefinitions\QuestionDataStepDefinitions.cs" />
+    <Compile Include="..\SpecFlowMasterClass.SpecOverflow.Specs.Controller\Support\ActionAttempt.cs" Link="Support\ActionAttempt.cs" />
+    <Compile Include="..\SpecFlowMasterClass.SpecOverflow.Specs.Controller\Support\CurrentTimeProvider.cs" Link="Support\CurrentTimeProvider.cs" />
+    <Compile Include="..\SpecFlowMasterClass.SpecOverflow.Specs.Controller\Support\DatabaseHooks.cs" Link="Support\DatabaseHooks.cs" />
+    <Compile Include="..\SpecFlowMasterClass.SpecOverflow.Specs.Controller\Support\Data\AnswerData.cs" Link="Support\Data\AnswerData.cs" />
+    <Compile Include="..\SpecFlowMasterClass.SpecOverflow.Specs.Controller\Support\Data\QuestionData.cs" Link="Support\Data\QuestionData.cs" />
+    <Compile Include="..\SpecFlowMasterClass.SpecOverflow.Specs.Controller\Support\DomainDefaults.cs" Link="Support\DomainDefaults.cs" />
+    <Compile Include="..\SpecFlowMasterClass.SpecOverflow.Specs.Controller\Support\ErrorMessageProvider.cs" Link="Support\ErrorMessageProvider.cs" />
+    <Compile Include="..\SpecFlowMasterClass.SpecOverflow.Specs.Controller\Support\QuestionContext.cs" Link="Support\QuestionContext.cs" />
+    <Compile Include="..\SpecFlowMasterClass.SpecOverflow.Specs.Controller\Support\TestLogger.cs" Link="Support\TestLogger.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SpecFlowMasterClass.SpecOverflow.Web\SpecFlowMasterClass.SpecOverflow.Web.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Support\Data\" />
+  </ItemGroup>
+
+</Project>

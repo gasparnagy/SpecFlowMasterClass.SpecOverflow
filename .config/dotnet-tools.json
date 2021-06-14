@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "specflow.plus.livingdoc.cli": {
+      "version": "3.7.141",
+      "commands": [
+        "livingdoc"
+      ]
+    }
+  }
+}

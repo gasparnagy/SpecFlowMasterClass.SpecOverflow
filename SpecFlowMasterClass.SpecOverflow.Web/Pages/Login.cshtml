@@ -1,0 +1,66 @@
+﻿@page
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2>Login</h2>
+<p>There is a default user named @DefaultDataServices.DefaultUserName (password: @DefaultDataServices.DefaultPassword) that can be used for login.</p>
+
+<fieldset>
+    <form id="LoginForm">
+        <p>
+            <label for="Name">User name</label>
+            <input type="text" id="Name" />
+        </p>
+
+        <p>
+            <label for="Password">Password</label>
+            <input type="password" id="Password" />
+        </p>
+
+        <div id="ErrorMessage" class="error" style="display: none"></div>
+
+        <p>
+            <input type="submit" value="Login" id="LoginButton" />
+        </p>
+    </form>
+</fieldset>
+@section scripts
+    {
+    <script language="javascript">
+        $(function() {
+            $('#LoginForm').submit(function(event) {
+                $('#ErrorMessage').hide();
+                $('body').attr("data-ajax-form", "1");
+                $.ajax('@Url.Api("/api/auth")',
+                        {
+                            method: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify(
+                                {
+                                    name: $('#Name').val(),
+                                    password: $('#Password').val()
+                                })
+                        })
+                    .then(
+                        function success(authToken) {
+                            console.log("logged in, token: " + authToken);
+                            window.location.href = '@Html.HomeUrl()';
+                        },
+                        function fail(request) {
+                            if (is400Error(request.status)) {
+                                $('#ErrorMessage').show();
+                                $('#ErrorMessage').html(request.responseText);
+                            } else {
+                                console.log(request);
+                                alert('Request failed (' + request.status + '). ' + request.responseText);
+                            }
+                            $('body').attr("data-ajax-form", "0");
+                        }
+                    );
+                // stop the form from submitting the normal way and refreshing the page
+                event.preventDefault();
+            });
+        });
+    </script>
+}

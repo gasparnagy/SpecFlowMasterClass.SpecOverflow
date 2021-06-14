@@ -1,0 +1,30 @@
+﻿@page
+@{
+    ViewData["Title"] = "All Questions";
+}
+
+<h2>All Questions</h2>
+<ul id="Questions"></ul>
+@section scripts
+    {
+    <script language="javascript">
+        $(function () {
+            $('body').attr("data-ajax-loaded", "0");
+            $.ajax('@Url.Api("/api/question")')
+                .then(
+                    function success(questions) {
+                        console.log(questions);
+                        questions.forEach(function (question) {
+                            addQuestionSummaryItem(question);
+                        });
+                        $('body').attr("data-ajax-loaded", "1");
+                    },
+                    function fail(request) {
+                        console.log(request);
+                        alert('Request failed (' + request.status + '). ' + request.statusText);
+                        $('body').attr("data-ajax-loaded", "1");
+                    }
+                );
+        });
+    </script>
+}

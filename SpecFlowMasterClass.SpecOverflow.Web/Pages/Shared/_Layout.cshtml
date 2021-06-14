@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Spec Overflow</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/bootstrap-theme.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    </environment>
+</head>
+<body>
+    <div class="page">
+        <header>
+            <div id="logo">
+                @Html.PageLink("Home", "Spec Overflow")
+            </div>
+            <nav>
+                <div id="UserInfo">
+                    @if (!AuthenticationServices.IsLoggedIn(Context))
+                    {
+                        <span>anonymous</span>
+                    }
+                    else
+                    {
+                        @:logged in as <span id="LoggedInUser">@AuthenticationServices.GetCurrentUserName(Context)</span>
+                    }
+                </div>
+                <ul id="menu">
+                    <li>@Html.PageLink("Home", "")</li>
+                    <li>@Html.PageLink("Questions", "Questions")</li>
+                    <li>@Html.PageLink("Ask Question", "Ask")</li>
+                    @if (AuthenticationServices.IsAdmin(Context))
+                    {
+                        <li class="menu-button admin-button">@Html.PageLink("Admin", "Admin")</li>
+                    }
+                    @if (!AuthenticationServices.IsLoggedIn(Context))
+                    {
+                        <li>@Html.PageLink("Login", "Login")</li>
+                        <li>@Html.PageLink("Register", "Register")</li>
+                    }
+                    else
+                    {
+                        <li><a href="#" onclick="logout()">Logout</a></li>
+                    }
+                </ul>
+                <div id="TestBar">
+                    For testing:
+                    <a href="#" onclick="resetData()">[Reset Data]</a>
+                    <a href="#" onclick="defaultLogin()">[Default Login]</a>
+                </div>
+            </nav>
+        </header>
+        <section id="main">
+            @RenderBody()
+            <div class="clearfix"></div>
+        </section>
+        <footer>
+            <p>Copyright (c) 2013-2021, Spec Solutions, Gaspar Nagy</p>
+            <p>Learn more about our BDD courses at <a href="https://www.specsolutions.eu/services/training/" target="_blank">https://www.specsolutions.eu/services/training/</a>.</p>
+        </footer>
+    </div>
+
+<environment include="Development">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+</environment>
+<environment exclude="Development">
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+            asp-fallback-test="window.jQuery"
+            crossorigin="anonymous"
+            integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+    </script>
+</environment>
+
+@RenderSection("Scripts", required: false)
+<script language="javascript">
+    function logout() {
+        $.ajax('@Url.Api("/api/auth")', { method: 'DELETE' })
+            .then(
+                function success() {
+                    console.log("logged out");
+                    window.location.href = '@Html.HomeUrl()';
+                },
+                function fail(request) {
+                    console.log(request);
+                    alert('Request failed (' + request.status + '). ' + request.statusText);
+                }
+            );
+    }
+
+    function resetData() {
+        $.ajax('@Url.Api("/api/test/Seed")', { method: 'POST' })
+            .then(
+                function success() {
+                    console.log("database has been reset");
+                    window.location.href = '@Html.HomeUrl()';
+                },
+                function fail(request) {
+                    console.log(request);
+                    alert('Request failed (' + request.status + '). ' + request.statusText);
+                }
+            );
+    }
+
+    function defaultLogin() {
+        $.ajax('@Url.Api("/api/test/DefaultLogin")', { method: 'POST' })
+            .then(
+                function success() {
+                    console.log("logged in with default user");
+                    window.location.href = '@Html.HomeUrl()';
+                },
+                function fail(request) {
+                    console.log(request);
+                    alert('Request failed (' + request.status + '). ' + request.statusText);
+                }
+            );
+    }
+
+    function flash(selector) {
+
+        $(selector).stop()
+            .css('opacity', 0)
+            .animate({ backgroundColor: "khaki", opacity: 1 }, 500)
+            .animate({ backgroundColor: '#ffffff' }, 300);
+    }
+
+    function is400Error(status) {
+        return status >= 400 && status < 500;
+    }
+
+    function getUserReference(user) {
+        return "<span class='user-name'>" + user.name + "</span>";
+    }
+
+    function getRelativeTimeSpan(date) {
+        var dateObj = new Date(date);
+        var deltaDays = (dateObj.getTime() - Date.now()) / (1000 * 3600 * 24);
+        var deltaHours = (dateObj.getTime() - Date.now()) / (1000 * 3600);
+        var deltaMinutes = (dateObj.getTime() - Date.now()) / (1000 * 60);
+
+        var formatter = new Intl.RelativeTimeFormat('en-US');
+        var dateString = "";
+        if (-deltaDays > 30)
+            dateString = "on " + dateObj.toDateString();
+        else if (-deltaDays > 1)
+            dateString = formatter.format(Math.round(deltaDays), 'days');
+        else if (-deltaHours > 1)
+            dateString = formatter.format(Math.round(deltaHours), 'hours');
+        else if (-deltaMinutes > 1)
+            dateString = formatter.format(Math.round(deltaMinutes), 'minutes');
+        else
+            dateString = "just now";
+
+        return "<span class='timestamp' title='" + dateObj.toISOString() + "' data-time='" + dateObj.toISOString() + "'>" + dateString + "</span>";
+    }
+
+    function addQuestionSummaryItem(question) {
+        var votesSpan = $("<span>").html(question.votes);
+        var li = $('<li>');
+        var questionInfo = $("<div class='question-info' data-question-id='" + question.id + "'>")
+            .append($("<div class='votes count'>").append(votesSpan))
+            .append($("<div class='answers count'>").append($("<span>").text(question.answers)))
+            .append($("<div class='views count'>").append($("<span>").text(question.views)))
+            .append($("<div class='question'>")
+                .append($("<div class='body'>").html($('<a href="/Question?id=' + question.id + '">').text(question.title)))
+                .append($("<div class='meta post-stat'>").html('question asked ' + getRelativeTimeSpan(question.askedAt) + " by " + getUserReference(question.askedBy))));
+        li.append(questionInfo);
+        $('#Questions').append(li);
+        return li;
+    }
+</script>
+</body>
+</html>
