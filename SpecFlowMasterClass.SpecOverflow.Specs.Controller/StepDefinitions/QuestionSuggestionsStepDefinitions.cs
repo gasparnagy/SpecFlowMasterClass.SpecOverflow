@@ -14,7 +14,7 @@ namespace SpecFlowMasterClass.SpecOverflow.Specs.Controller.StepDefinitions
     {
         private List<QuestionSummaryModel> _suggestions;
 
-        [When(@"the user starts asking a question as")]
+        [When("the user starts asking a question as")]
         public void WhenTheUserStartsAskingAQuestionAs(Table questionTable)
         {
             var question = questionTable.CreateInstance(DomainDefaults.GetDefaultAskInput);
@@ -22,13 +22,13 @@ namespace SpecFlowMasterClass.SpecOverflow.Specs.Controller.StepDefinitions
             _suggestions = controller.GetQuestionSuggestions(question);
         }
 
-        [Then(@"the suggestions list should be")]
+        [Then("the suggestions list should be")]
         public void ThenTheSuggestionsListShouldBe(Table expectedSuggestionsTable)
         {
             expectedSuggestionsTable.CompareToSet(_suggestions);
         }
 
-        [Then(@"the suggestions list should be provided in this order")]
+        [Then("the suggestions list should be provided in this order")]
         public void ThenTheSuggestionsListShouldBeProvidedInThisOrder(Table expectedSuggestionsTable)
         {
             expectedSuggestionsTable.CompareToSet(_suggestions, true);

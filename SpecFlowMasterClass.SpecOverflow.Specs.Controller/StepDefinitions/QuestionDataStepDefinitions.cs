@@ -20,15 +20,14 @@ namespace SpecFlowMasterClass.SpecOverflow.Specs.StepDefinitions
             _questionContext = questionContext;
         }
 
-        [Given(@"there is a question asked")]
+        [Given("there is a question asked")]
         public void GivenThereIsAQuestionAsked()
         {
             _questionMother.GenerateQuestions(new [] { DomainDefaults.GetDefaultQuestion() });
         }
 
-        [Given(@"there are questions asked as")]
-        [Given(@"there is a question asked as")]
-        [Given(@"there is a question just asked as")]
+        [Given("there are questions asked as")]
+        [Given("there is a question (just )asked as")]
         public void GivenThereIsAQuestionAskedAs(Table questionsTable)
         {
             var questions = questionsTable.CreateSet(() => DomainDefaults.GetDefaultQuestion());
@@ -37,7 +36,7 @@ namespace SpecFlowMasterClass.SpecOverflow.Specs.StepDefinitions
             _questionContext.QuestionSpecification = questionsTable;
         }
 
-        [Given(@"there is a question asked with (\d+) votes")]
+        [Given("there is a question asked with {int} votes")]
         public void GivenThereIsAQuestionAskedWithVotes(int votes)
         {
             _questionMother.GenerateQuestions(new[]
@@ -49,7 +48,7 @@ namespace SpecFlowMasterClass.SpecOverflow.Specs.StepDefinitions
             });
         }
 
-        [Given(@"there is a question asked by (\w+)")]
+        [Given("there is a question asked by {word}")]
         public void GivenThereIsAQuestionAskedByUser(string userName)
         {
             _questionMother.GenerateQuestions(new[]
@@ -62,15 +61,15 @@ namespace SpecFlowMasterClass.SpecOverflow.Specs.StepDefinitions
         }
 
 
-        [Given(@"there are (\d+) questions asked")]
+        [Given("there are {int} questions asked")]
         public void GivenThereAreQuestionsAsked(int count)
         {
             _questionMother.GenerateQuestions(Enumerable.Range(0, count)
                 .Select(_ => DomainDefaults.GetDefaultQuestion()));
         }
 
-        [Given(@"there are answers for the question as")]
-        [Given(@"there is an answer for the question as")]
+        [Given("there are answers for the question as")]
+        [Given("there is an answer for the question as")]
         public void GivenThereIsAnAnswerForTheQuestionAs(Table answersTable)
         {
             var answers = answersTable.CreateSet(() => DomainDefaults.GetDefaultAnswer());
@@ -79,13 +78,13 @@ namespace SpecFlowMasterClass.SpecOverflow.Specs.StepDefinitions
             _questionContext.AnswerSpecification = answersTable;
         }
 
-        [Given(@"there is an answer for the question")]
+        [Given("there is an answer for the question")]
         public void GivenThereIsAnAnswerForTheQuestion()
         {
             _questionMother.GenerateAnswersForCurrentQuestion(new []{ DomainDefaults.GetDefaultAnswer() });
         }
 
-        [Given(@"there is an answer for the question by (\w+)")]
+        [Given("there is an answer for the question by {word}")]
         public void GivenThereIsAnAnswerForTheQuestionByUser(string userName)
         {
             _questionMother.GenerateAnswersForCurrentQuestion(new[]

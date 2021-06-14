@@ -1,6 +1,6 @@
 ﻿Feature: Answering questions
 
-#Rule: Should be able to answer a question
+Rule: Should be able to answer a question
 
 Scenario: The answer is registered with no votes
 	Given there is a question asked
@@ -12,7 +12,7 @@ Scenario: The answer is registered with no votes
 		| votes | answered at | answered by |
 		| 0     | now         | Marvin      |
 
-#Rule: Only authenticated users can answer questions
+Rule: Only authenticated users can answer questions
 
 Scenario: Anonymous user cannot answer questions
 	Given there is a question asked
@@ -20,7 +20,7 @@ Scenario: Anonymous user cannot answer questions
 	When the user attempts to answer the question
 	Then the answer attempt should fail with error "not-logged-in"
 
-#Rule: The answer content is mandatory
+Rule: The answer content is mandatory
 
 Scenario: Cannot post an answer with empty content
 	Given there is a question asked

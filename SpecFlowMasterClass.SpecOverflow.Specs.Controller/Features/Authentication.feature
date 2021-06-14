@@ -1,6 +1,6 @@
 ﻿Feature: Authentication
 
-#Rule: Successful login authorizes for member-only services
+Rule: Successful login authorizes for member-only services
 
 Scenario: User logs in with valid credentials
 	Given there is a user registered with user name "Trillian" and password "139139"

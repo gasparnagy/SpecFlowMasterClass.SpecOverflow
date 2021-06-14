@@ -20,7 +20,7 @@ namespace SpecFlowMasterClass.SpecOverflow.Specs.API.StepDefinitions
             _askQuestionDriver = askQuestionDriver;
         }
 
-        [When(@"the user asks a question as")]
+        [When("the user asks a question as")]
         public void WhenTheUserAsksAQuestionAs(Table questionTable)
         {
             _askQuestionSpecification = questionTable;
@@ -29,32 +29,32 @@ namespace SpecFlowMasterClass.SpecOverflow.Specs.API.StepDefinitions
             _questionDetails = _askQuestionDriver.GetQuestionDetails(result.Id);
         }
 
-        [When(@"the user attempts to ask a question")]
+        [When("the user attempts to ask a question")]
         public void WhenTheUserAttemptsToAskAQuestion()
         {
             _askQuestionDriver.AskQuestion.Perform(DomainDefaults.GetDefaultAskInput(), true);
         }
 
-        [When(@"the user attempts to ask a question as")]
+        [When("the user attempts to ask a question as")]
         public void WhenTheUserAttemptsToAskAQuestionAs(Table questionTable)
         {
             var question = questionTable.CreateInstance(DomainDefaults.GetDefaultAskInput);
             _askQuestionDriver.AskQuestion.Perform(question, true);
         }
 
-        [Then(@"the question should be posted as above")]
+        [Then("the question should be posted as above")]
         public void ThenTheQuestionShouldBePostedAsAbove()
         {
             _askQuestionSpecification.CompareToInstance(_questionDetails.ToQuestionData());
         }
 
-        [Then(@"the question meta data should be")]
+        [Then("the question meta data should be")]
         public void ThenTheQuestionMetaDataShouldBe(Table expectedQuestionMetaDataTable)
         {
             expectedQuestionMetaDataTable.CompareToInstance(_questionDetails.ToQuestionData());
         }
 
-        [Then(@"the ask attempt should fail with error ""([^""]*)""")]
+        [Then("the ask attempt should fail with error {string}")]
         public void ThenTheAskAttemptShouldFailWithError(string expectedErrorMessageKey)
         {
             _askQuestionDriver.AskQuestion.ShouldFailWithError(expectedErrorMessageKey);

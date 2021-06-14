@@ -1,7 +1,7 @@
 ﻿@voting
 Feature: Voting for answers
 
-#Rule: Users can vote up and down answers
+Rule: Users can vote up and down answers
 
 Scenario Outline: The user votes for answers
 	Given there is a question asked
@@ -17,7 +17,7 @@ Examples:
 	| vote down       | 3          | down | 2              |
 	| can go negative | 0          | down | -1             |
 
-#Rule: The position of the answer might change after vote
+Rule: The position of the answer might change after vote
 
 Scenario Outline: The answers swop
 	Given there is a question asked
@@ -37,7 +37,7 @@ Examples:
 	| answer becomes obsolete | Check the Formulation book          | down |
 
 
-#Rule: Only authenticated users can vote
+Rule: Only authenticated users can vote
 
 Scenario: Anonymous user cannot vote for answer
 	Given there is a question asked
@@ -47,7 +47,7 @@ Scenario: Anonymous user cannot vote for answer
 	Then the answer voting attempt should fail with error "not-logged-in"
 
 
-#Rule: Users cannot vote for their own answer
+Rule: Users cannot vote for their own answer
 
 Scenario: User cannot vote for their own answer
 	Given there is a question asked
@@ -57,7 +57,7 @@ Scenario: User cannot vote for their own answer
 	Then the answer voting attempt should fail with error "cannot-vote-for-your-own-answer"
 
 
-#Rule: Multiple users can vote for the same answer
+Rule: Multiple users can vote for the same answer
 
 Scenario: Other user also voted while the user was on the question details page
 	Given there is a question asked

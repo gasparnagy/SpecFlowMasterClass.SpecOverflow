@@ -23,19 +23,19 @@ namespace SpecFlowMasterClass.SpecOverflow.Specs.Controller.StepDefinitions
             _questionContext = questionContext;
         }
 
-        [When(@"the user votes (\w+) the question")]
+        [When("the user votes {word} the question")]
         public void WhenTheUserVotesUpTheQuestion(VoteDirection vote)
         {
             _question = _voteQuestionDriver.Perform(vote);
         }
 
-        [When(@"the user attempts to vote (\w+) the question")]
+        [When("the user attempts to vote {word} the question")]
         public void WhenTheUserAttemptsToVoteTheQuestion(VoteDirection vote)
         {
             _question = _voteQuestionDriver.Perform(vote, true);
         }
 
-        [Given(@"another user votes (\w+) the question in the meanwhile")]
+        [Given("another user votes {word} the question in the meanwhile")]
         public void GivenAnotherUserVotesTheQuestionInTheMeanwhile(VoteDirection vote)
         {
             var otherUserAuthContext = _isolatedAuthContextFactory.CreateAuthContext();
@@ -44,13 +44,13 @@ namespace SpecFlowMasterClass.SpecOverflow.Specs.Controller.StepDefinitions
             otherUserVoteDriver.Perform(_questionContext.CurrentQuestionId, vote);
         }
 
-        [Then(@"the vote count of the question should be changed to (-?\d+)")]
+        [Then("the vote count of the question should be changed to {int}")]
         public void ThenTheVoteCountOfTheQuestionShouldBeChangedTo(int expectedVoteCount)
         {
             _question.Votes.Should().Be(expectedVoteCount);
         }
 
-        [Then(@"the question voting attempt should fail with error ""([^""]*)""")]
+        [Then("the question voting attempt should fail with error {string}")]
         public void ThenTheQuestionVotingAttemptShouldFailWithError(string expectedErrorMessageKey)
         {
             _voteQuestionDriver.ShouldFailWithError(expectedErrorMessageKey);
