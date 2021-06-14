@@ -15,14 +15,14 @@ namespace SpecFlowMasterClass.SpecOverflow.Specs.WebUI.StepDefinitions
             _registerPageDriver = registerPageDriver;
         }
 
-        [Given("there is a user registered with user name {string} and password {string}")]
+        [Given(@"there is a user registered with user name ""([^""]*)"" and password ""([^""]*)""")]
         public void GivenThereIsAUserRegisteredWithUserNameAndPassword(string userName, string password)
         {
             _registerPageDriver.Perform(
                 new RegisterInputModel { UserName = userName, Password = password, PasswordReEnter = password });
         }
 
-        [When("the user attempts to register with user name {string} and password {string}")]
+        [When(@"the user attempts to register with user name ""([^""]*)"" and password ""([^""]*)""")]
         public void WhenTheUserAttemptsToRegisterWithUserNameAndPassword(string userName, string password)
         {
             _registerPageDriver.Perform(
@@ -30,7 +30,7 @@ namespace SpecFlowMasterClass.SpecOverflow.Specs.WebUI.StepDefinitions
                 true);
         }
 
-        [Then("the registration should be successful")]
+        [Then(@"the registration should be successful")]
         public void ThenTheRegistrationShouldBeSuccessful()
         {
             _registerPageDriver.ShouldBeSuccessful();

@@ -1,6 +1,6 @@
 ﻿Feature: Questions
 
-Rule: The questions page should list all questions with the latest on top
+#Rule: The questions page should list all questions with the latest on top
 
 Scenario: The latest question is shown on questions page with details
 	Given there is a question asked as

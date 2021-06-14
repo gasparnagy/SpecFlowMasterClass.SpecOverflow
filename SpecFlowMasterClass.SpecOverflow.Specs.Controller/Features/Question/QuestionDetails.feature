@@ -1,6 +1,6 @@
 ﻿Feature: Question details
 
-Rule: All question details should be shown on the question details page
+#Rule: All question details should be shown on the question details page
 
 Scenario: The question is shown on question details page with all details
 	Given there is a question asked as
@@ -18,7 +18,7 @@ Scenario: The answer is shown on question details page with all details
 	When the user checks the question details page of the question
 	Then the answer should be listed among the answers as above
 
-Rule: The answers with more votes should be listed earlier
+#Rule: The answers with more votes should be listed earlier
 
 Scenario: All answers are shown on the question details page the highest voted on top
 	Given there is a question asked as
@@ -28,7 +28,7 @@ Scenario: All answers are shown on the question details page the highest voted o
 	Then the answers list should contain 4 answers
 	And the answers list should be ordered descending by vote
 
-Rule: The view count of the question sould increase when the question details page is shown
+#Rule: The view count of the question sould increase when the question details page is shown
 
 Scenario: The question view count increases
 	Given there is a question asked as

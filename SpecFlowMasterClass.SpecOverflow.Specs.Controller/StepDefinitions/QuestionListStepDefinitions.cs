@@ -22,14 +22,14 @@ namespace SpecFlowMasterClass.SpecOverflow.Specs.Controller.StepDefinitions
             _questionContext = questionContext;
         }
 
-        [When("the user checks the questions page")]
+        [When(@"the user checks the questions page")]
         public void WhenTheUserChecksTheQuestionsPage()
         {
             var controller = new QuestionController();
             _questions = controller.GetQuestions();
         }
 
-        [Then("the question should be listed among the questions as above")]
+        [Then(@"the question should be listed among the questions as above")]
         public void ThenTheQuestionShouldBeListedAmongTheQuestionsAsAbove()
         {
             var question = _questions.FirstOrDefault(q => q.Title == _questionContext.CurrentQuestion.Title);
@@ -37,13 +37,13 @@ namespace SpecFlowMasterClass.SpecOverflow.Specs.Controller.StepDefinitions
             _questionContext.QuestionSpecification.CompareToInstance(question.ToQuestionData());
         }
 
-        [Then("the questions list should contain {int} questions")]
+        [Then(@"the questions list should contain (\d+) questions")]
         public void ThenTheQuestionsListShouldContainQuestions(int expectedCount)
         {
             _questions.Should().HaveCount(expectedCount);
         }
 
-        [Then("the question list should be ordered descending by ask date")]
+        [Then(@"the question list should be ordered descending by ask date")]
         public void ThenTheQuestionListShouldBeOrderedDescendingByAskDate()
         {
             _questions.Should().BeInDescendingOrder(q => q.AskedAt);

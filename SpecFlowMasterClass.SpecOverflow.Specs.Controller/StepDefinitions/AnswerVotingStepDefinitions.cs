@@ -23,19 +23,19 @@ namespace SpecFlowMasterClass.SpecOverflow.Specs.Controller.StepDefinitions
             _isolatedAuthContextFactory = isolatedAuthContextFactory;
         }
 
-        [When("the user votes {word} the answer")]
+        [When(@"the user votes (\w+) the answer")]
         public void WhenTheUserVotesTheAnswer(VoteDirection vote)
         {
             _voteAnswerDriver.Perform(vote);
         }
 
-        [When("the user attempts to vote {word} the answer")]
+        [When(@"the user attempts to vote (\w+) the answer")]
         public void WhenTheUserAttemptsToVoteTheAnswer(VoteDirection vote)
         {
             _voteAnswerDriver.Perform(vote, true);
         }
 
-        [When("the user votes {word} the answer {string}")]
+        [When(@"the user votes (\w+) the answer ""([^""]*)""")]
         public void WhenTheUserVotesUpTheAnswer(VoteDirection vote, string answerContent)
         {
             _questionDetailsPageDriver.LoadPage();
@@ -43,7 +43,7 @@ namespace SpecFlowMasterClass.SpecOverflow.Specs.Controller.StepDefinitions
             _voteAnswerDriver.Perform(answer.Id, vote);
         }
 
-        [Given("another user votes {word} the answer in the meanwhile")]
+        [Given(@"another user votes (\w+) the answer in the meanwhile")]
         public void GivenAnotherUserVotesUpTheAnswerInTheMeanwhile(VoteDirection vote)
         {
             var otherUserAuthContext = _isolatedAuthContextFactory.CreateAuthContext();
@@ -52,13 +52,13 @@ namespace SpecFlowMasterClass.SpecOverflow.Specs.Controller.StepDefinitions
             otherUserVoteDriver.Perform(_questionContext.CurrentQuestionId, _questionContext.CurrentAnswerId, vote);
         }
 
-        [Then("the vote count of the answer should be changed to {int}")]
+        [Then(@"the vote count of the answer should be changed to (-?\d+)")]
         public void ThenTheVoteCountOfTheAnswerShouldBeChangedTo(int expectedVoteCount)
         {
             _questionContext.CurrentAnswer.Votes.Should().Be(expectedVoteCount);
         }
 
-        [Then("the answer voting attempt should fail with error {string}")]
+        [Then(@"the answer voting attempt should fail with error ""([^""]*)""")]
         public void ThenTheAnswerVotingAttemptShouldFailWithError(string expectedErrorMessageKey)
         {
             _voteAnswerDriver.ShouldFailWithError(expectedErrorMessageKey);

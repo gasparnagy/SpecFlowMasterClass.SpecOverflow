@@ -23,33 +23,33 @@ namespace SpecFlowMasterClass.SpecOverflow.Specs.WebUI.StepDefinitions
             _homePageDriver = homePageDriver;
         }
 
-        [Given("user Marvin is authenticated")]
-        [Given("the user is authenticated")]
+        [Given(@"user Marvin is authenticated")]
+        [Given(@"the user is authenticated")]
         public void GivenTheUserIsAuthenticated()
         {
             _authContext.Authenticate(DomainDefaults.UserName, DomainDefaults.UserPassword);
         }
 
-        [Given("the user is not authenticated")]
+        [Given(@"the user is not authenticated")]
         public void GivenTheUserIsNotAuthenticated()
         {
             _homePageDriver.GetCurrentUser().Should().BeNull();
         }
 
-        [When("the user attempts to log in with user name {string} and password {string}")]
+        [When(@"the user attempts to log in with user name ""([^""]*)"" and password ""([^""]*)""")]
         public void WhenTheUserAttemptsToLogInWithUserNameAndPassword(string userName, string password)
         {
             _loginPageDriver.Perform(
                 new LoginInputModel {Name = userName, Password = password}, true);
         }
 
-        [Then("the login attempt should be successful")]
+        [Then(@"the login attempt should be successful")]
         public void ThenTheLoginAttemptShouldBeSuccessful()
         {
             _loginPageDriver.ShouldBeSuccessful();
         }
 
-        [Then("the user should be authenticated")]
+        [Then(@"the user should be authenticated")]
         public void ThenTheUserShouldBeAuthenticated()
         {
             var currentUser = _homePageDriver.GetCurrentUser();

@@ -1,6 +1,6 @@
 ﻿Feature: Asking questions
 
-Rule: Should be able to ask a question
+#Rule: Should be able to ask a question
 
 Scenario: The question is posted
 	Given user Marvin is authenticated
@@ -12,14 +12,14 @@ Scenario: The question is posted
 		| votes | asked at | asked by |
 		| 0     | now      | Marvin   |
 
-Rule: Only authenticated users can ask questions
+#Rule: Only authenticated users can ask questions
 
 Scenario: Anonymous user cannot answer questions
 	Given the user is not authenticated
 	When the user attempts to ask a question
 	Then the ask attempt should fail with error "not-logged-in"
 
-Rule: The question title and body are mandatory
+#Rule: The question title and body are mandatory
 
 Scenario Outline: Cannot post an answer with empty content
 	Given user Marvin is authenticated

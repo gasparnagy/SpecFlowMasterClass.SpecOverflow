@@ -3,7 +3,7 @@
 The user receives a suggested list of related questions while entering a new question
 in order to avoid posting a duplicate.
 
-Rule: Questions with at least one common word should be suggested, excluding common English words
+#Rule: Questions with at least one common word should be suggested, excluding common English words
 
 Scenario Outline: There is a question with common words of the one being asked
 	Given there are questions asked as
@@ -24,7 +24,7 @@ Examples:
 	| Word 'is' is ignored from second question | What is the best SpecFlow practice |
 
 
-Rule: Words should be matched in title, body and tags
+#Rule: Words should be matched in title, body and tags
 
 Scenario: The same word is in different fields
 	Given there are questions asked as
@@ -43,7 +43,7 @@ Scenario: The same word is in different fields
 		| Question 3        |
 
 
-Rule: Suggestions with more common words should be earlier in the list
+#Rule: Suggestions with more common words should be earlier in the list
 
 Scenario: There are existing questions with multiple common words
 	Given there are questions asked as
