@@ -12,8 +12,8 @@ Scenario Outline: There is a question with common words of the one being asked
 		| What is Cucumber? |
 	And the user is authenticated
 	When the user starts asking a question as
-		| title                   |
-		| Best SpecFlow practices |
+		| title            |
+		| <asked question> |
 	Then the suggestions list should be
 		| title             |
 		| What is SpecFlow? |
@@ -21,7 +21,7 @@ Examples:
 	| description                               | asked question                     |
 	| Another question contains the same word   | Best SpecFlow practices            |
 	| Word match is case insensitive            | Best SPECFLOW practices            |
-	| Word 'is' is ignored from second question | What is the best SpecFlow practice |
+	| Word 'is' is ignored from second question | Is this the best SpecFlow practice |
 
 
 #Rule: Words should be matched in title, body and tags
