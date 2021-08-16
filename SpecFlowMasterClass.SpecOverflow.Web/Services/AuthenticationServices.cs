@@ -75,7 +75,8 @@ namespace SpecFlowMasterClass.SpecOverflow.Web.Services
                 Path = "/",
                 Expires = DateTime.Now.AddMinutes(30),
                 HttpOnly = true,
-                IsEssential = true
+                IsEssential = true,
+                SameSite = SameSiteMode.Strict
             };
             response.Cookies.Append("auth-token", token, option);
         }
