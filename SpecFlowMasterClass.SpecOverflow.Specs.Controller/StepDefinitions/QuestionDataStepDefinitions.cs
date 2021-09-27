@@ -27,7 +27,8 @@ namespace SpecFlowMasterClass.SpecOverflow.Specs.StepDefinitions
         }
 
         [Given(@"there are questions asked as")]
-        [Given(@"there is a question (just )asked as")]
+        [Given(@"there is a question asked as")]
+        [Given(@"there is a question just asked as")]
         public void GivenThereIsAQuestionAskedAs(Table questionsTable)
         {
             var questions = questionsTable.CreateSet(() => DomainDefaults.GetDefaultQuestion());
