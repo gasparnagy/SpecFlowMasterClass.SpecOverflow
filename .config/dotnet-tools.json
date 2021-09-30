@@ -3,7 +3,7 @@
   "isRoot": true,
   "tools": {
     "specflow.plus.livingdoc.cli": {
-      "version": "3.7.141",
+      "version": "3.9.57",
       "commands": [
         "livingdoc"
       ]
