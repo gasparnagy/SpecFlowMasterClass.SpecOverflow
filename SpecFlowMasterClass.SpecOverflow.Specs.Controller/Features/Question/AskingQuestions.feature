@@ -22,7 +22,7 @@ Scenario: Anonymous user cannot answer questions
 #Rule: The question title and body are mandatory
 
 Scenario Outline: Cannot post an answer with empty content
-	Given user Marvin is authenticated
+	Given the user is authenticated
 	When the user attempts to ask a question as
 		| title   | body   |
 		| <title> | <body> |
