@@ -2,6 +2,7 @@ using System;
 using SpecFlowMasterClass.SpecOverflow.Specs.Controller.Drivers;
 using SpecFlowMasterClass.SpecOverflow.Specs.Support;
 using SpecFlowMasterClass.SpecOverflow.Specs.Support.Data;
+using SpecFlowMasterClass.SpecOverflow.Web.Models;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 
@@ -36,10 +37,9 @@ namespace SpecFlowMasterClass.SpecOverflow.Specs.Controller.StepDefinitions
         }
 
         [When(@"the user attempts to ask a question as")]
-        public void WhenTheUserAttemptsToAskAQuestionAs(Table questionTable)
+        public void WhenTheUserAttemptsToAskAQuestionAs(AskInputModel askedQuestion)
         {
-            var question = questionTable.CreateInstance(DomainDefaults.GetDefaultAskInput);
-            _askQuestionDriver.Perform(question, true);
+            _askQuestionDriver.Perform(askedQuestion, true);
         }
 
         [Then(@"the question should be posted as above")]
