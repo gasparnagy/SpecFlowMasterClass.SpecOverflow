@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -79,7 +80,15 @@ namespace SpecFlowMasterClass.SpecOverflow.Specs.API.Support
 
         public string GetScenarioSpecificFileName(string extension = "")
         {
-            return $"{ToPath(_featureContext.FeatureInfo.Title)}_{ToPath(_scenarioContext.ScenarioInfo.Title)}_{DateTime.Now.Ticks}" + extension;
+            var baseFileName = $"{ToPath(_featureContext.FeatureInfo.Title)}_{ToPath(_scenarioContext.ScenarioInfo.Title)}";
+            if (_scenarioContext.ScenarioInfo.Arguments != null && _scenarioContext.ScenarioInfo.Arguments.Count > 0)
+            {
+                foreach (DictionaryEntry entry in _scenarioContext.ScenarioInfo.Arguments)
+                {
+                    baseFileName += $"_{entry.Key}-{entry.Value}";
+                }
+            }
+            return baseFileName + extension;
         }
     }
 }
