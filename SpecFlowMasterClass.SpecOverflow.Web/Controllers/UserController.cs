@@ -29,10 +29,14 @@ namespace SpecFlowMasterClass.SpecOverflow.Web.Controllers
         [HttpPost]
         public UserReferenceModel Register(RegisterInputModel registerModel)
         {
-            if (string.IsNullOrEmpty(registerModel.UserName) || string.IsNullOrEmpty(registerModel.Password) || string.IsNullOrEmpty(registerModel.PasswordReEnter))
-                throw new HttpResponseException(HttpStatusCode.BadRequest, "Name, password and password re-enter must be provided");
+            if (string.IsNullOrEmpty(registerModel.UserName))
+                throw new HttpResponseException(HttpStatusCode.BadRequest, "Name must be provided");
+            if (string.IsNullOrEmpty(registerModel.Password) || string.IsNullOrEmpty(registerModel.PasswordReEnter))
+                throw new HttpResponseException(HttpStatusCode.BadRequest, "Password and password re-enter must be provided");
             if (registerModel.Password != registerModel.PasswordReEnter)
                 throw new HttpResponseException(HttpStatusCode.BadRequest, "Re-entered password is different");
+            if (registerModel.Password.Length < 4)
+                throw new HttpResponseException(HttpStatusCode.BadRequest, "Password must be at least 4 characters long");
 
             var existingUser = _dataContext.Users.FirstOrDefault(u => u.Name == registerModel.UserName);
             if (existingUser != null)
